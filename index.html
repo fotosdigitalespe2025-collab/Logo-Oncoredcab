@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONCORED - Animación de Logo con Sonido Sutil</title>
+  <style>
+    :root {
+      --bg-stage: #ffffff;
+      --accent: #0B4D4B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-stage);
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    .scene {
+      width: min(92vw, 560px);
+      aspect-ratio: 4 / 5;
+      perspective: 1400px;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    svg#logo-oncored {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      transform-style: preserve-3d;
+    }
+
+    .part,
+    .icon-part {
+      transform-box: fill-box;
+      transform-origin: center center;
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+
+    /* =========================================================
+       FASE 1: BASES Y CUADRANTES (De atrás hacia adelante)
+       ========================================================= */
+    .animate-in #base-centro {
+      animation: flyFromBackCenter 0.85s cubic-bezier(0.22, 1.25, 0.36, 1) 0.1s forwards;
+    }
+
+    .animate-in #base-sup-izq {
+      animation: flyFromBackTopLeft 0.85s cubic-bezier(0.22, 1.22, 0.36, 1) 0.3s forwards;
+    }
+
+    .animate-in #base-sup-der {
+      animation: flyFromBackTopRight 0.85s cubic-bezier(0.22, 1.22, 0.36, 1) 0.45s forwards;
+    }
+
+    .animate-in #base-inf-der {
+      animation: flyFromBackBottomRight 0.85s cubic-bezier(0.22, 1.22, 0.36, 1) 0.6s forwards;
+    }
+
+    .animate-in #base-inf-izq {
+      animation: flyFromBackBottomLeft 0.85s cubic-bezier(0.22, 1.22, 0.36, 1) 0.75s forwards;
+    }
+
+    /* =========================================================
+       FASE 2: ÍCONOS INTERNOS (Entran grandes y se adaptan)
+       ========================================================= */
+    .animate-in #icono-centro {
+      animation: iconHeroSettle 1.05s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+    }
+
+    .animate-in #icono-sup-izq {
+      animation: iconHeroSettle 1.05s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+    }
+
+    .animate-in #icono-sup-der {
+      animation: iconHeroSettle 1.05s cubic-bezier(0.16, 1, 0.3, 1) 1.55s forwards;
+    }
+
+    .animate-in #icono-inf-der {
+      animation: iconHeroSettle 1.05s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+    }
+
+    .animate-in #icono-inf-izq {
+      animation: iconHeroSettle 1.05s cubic-bezier(0.16, 1, 0.3, 1) 2.05s forwards;
+    }
+
+    /* =========================================================
+       FASE 3: TEXTOS PRINCIPALES
+       ========================================================= */
+    .animate-in #texto-oncored {
+      animation: flyTextMain 0.85s cubic-bezier(0.2, 1.2, 0.35, 1) 2.45s forwards;
+    }
+
+    .animate-in #texto-subtitulo {
+      animation: flySubtitle 0.75s cubic-bezier(0.22, 1, 0.36, 1) 2.75s forwards;
+    }
+
+    /* Flotación orgánica final una vez armado */
+    .animate-in #logo-grupo-completo {
+      animation: subtleFloat 3.6s ease-in-out 3.6s infinite;
+      transform-box: fill-box;
+      transform-origin: center center;
+    }
+
+    /* KEYFRAMES DE LAS BASES */
+    @keyframes flyFromBackCenter {
+      0% {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translate3d(0, 0, -650px) scale(0.2) rotate(-25deg);
+      }
+      70% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 40px) scale(1.05) rotate(3deg);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes flyFromBackTopLeft {
+      0% {
+        opacity: 0;
+        filter: blur(7px);
+        transform: translate3d(-140px, -130px, -600px) scale(0.25) rotateY(-35deg) rotateX(20deg);
+      }
+      72% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(5px, 5px, 30px) scale(1.03) rotateY(4deg) rotateX(-2deg);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1) rotateY(0deg) rotateX(0deg);
+      }
+    }
+
+    @keyframes flyFromBackTopRight {
+      0% {
+        opacity: 0;
+        filter: blur(7px);
+        transform: translate3d(140px, -130px, -600px) scale(0.25) rotateY(35deg) rotateX(20deg);
+      }
+      72% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(-5px, 5px, 30px) scale(1.03) rotateY(-4deg) rotateX(-2deg);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1) rotateY(0deg) rotateX(0deg);
+      }
+    }
+
+    @keyframes flyFromBackBottomRight {
+      0% {
+        opacity: 0;
+        filter: blur(7px);
+        transform: translate3d(140px, 130px, -600px) scale(0.25) rotateY(35deg) rotateX(-20deg);
+      }
+      72% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(-5px, -5px, 30px) scale(1.03) rotateY(-4deg) rotateX(2deg);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1) rotateY(0deg) rotateX(0deg);
+      }
+    }
+
+    @keyframes flyFromBackBottomLeft {
+      0% {
+        opacity: 0;
+        filter: blur(7px);
+        transform: translate3d(-140px, 130px, -600px) scale(0.25) rotateY(-35deg) rotateX(-20deg);
+      }
+      72% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(5px, -5px, 30px) scale(1.03) rotateY(4deg) rotateX(2deg);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1) rotateY(0deg) rotateX(0deg);
+      }
+    }
+
+    /* KEYFRAME PROTAGONISTA PARA ÍCONOS INTERNOS:
+       Entran grandes al frente y se adaptan al tamaño exacto */
+    @keyframes iconHeroSettle {
+      0% {
+        opacity: 0;
+        filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35)) blur(4px);
+        transform: translate3d(0, -18px, 260px) scale(2.45) rotate(-8deg);
+      }
+      38% {
+        opacity: 1;
+        filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.28)) blur(0px);
+        transform: translate3d(0, -8px, 190px) scale(2.05) rotate(3deg);
+      }
+      82% {
+        opacity: 1;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+        transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
+      }
+      100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      }
+    }
+
+    /* KEYFRAMES DE TEXTOS */
+    @keyframes flyTextMain {
+      0% {
+        opacity: 0;
+        filter: blur(6px);
+        transform: translate3d(0, 35px, -500px) scale(0.4);
+        letter-spacing: 0.22em;
+      }
+      75% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, -3px, 25px) scale(1.03);
+        letter-spacing: 0.04em;
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1);
+        letter-spacing: 0.03em;
+      }
+    }
+
+    @keyframes flySubtitle {
+      0% {
+        opacity: 0;
+        filter: blur(4px);
+        transform: translate3d(0, 22px, -300px) scale(0.75);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes subtleFloat {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+      }
+      50% {
+        transform: translateY(-4px) scale(1.01);
+      }
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #d8e2e1;
+      padding: 8px 10px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+    }
+
+    .controls button,
+    .controls select {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 7px;
+      border: 1px solid #c5d3d2;
+      background: #fff;
+      color: #1f2933;
+      cursor: pointer;
+    }
+
+    .controls button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene" id="scene">
+    <svg id="logo-oncored" viewBox="0 0 600 750" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ONCORED - Red de Cuidado Oncológico - COL">
+      <g id="logo-grupo-completo">
+
+        <!-- ================= CAPAS BASE (CUADRANTES Y CENTRO) ================= -->
+        <g id="base-sup-izq" class="part">
+          <path d="M 290 22 A 268 268 0 0 0 22 290 L 182 290 A 108 108 0 0 1 290 182 Z"
+                fill="#0B4D4B" stroke="#9E9E9E" stroke-width="7" stroke-linejoin="round" />
+        </g>
+
+        <g id="base-sup-der" class="part">
+          <path d="M 310 22 L 310 182 A 108 108 0 0 1 418 290 L 578 290 A 268 268 0 0 0 310 22 Z"
+                fill="#3B8580" stroke="#9E9E9E" stroke-width="7" stroke-linejoin="round" />
+        </g>
+
+        <g id="base-inf-der" class="part">
+          <path d="M 418 310 A 108 108 0 0 1 310 418 L 310 578 A 268 268 0 0 0 578 310 Z"
+                fill="#07605C" stroke="#9E9E9E" stroke-width="7" stroke-linejoin="round" />
+        </g>
+
+        <g id="base-inf-izq" class="part">
+          <path d="M 22 310 A 268 268 0 0 0 290 578 L 290 418 A 108 108 0 0 1 182 310 Z"
+                fill="#5EBAB3" stroke="#9E9E9E" stroke-width="7" stroke-linejoin="round" />
+        </g>
+
+        <g id="base-centro" class="part">
+          <circle cx="300" cy="300" r="105" fill="#FFFFFF" stroke="#9E9E9E" stroke-width="7" />
+          <circle cx="300" cy="300" r="95" fill="#92DBD2" />
+        </g>
+
+        <!-- ================= ÍCONOS INTERNOS SEPARADOS ================= -->
+        <g id="icono-centro" class="icon-part" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="300" cy="304" rx="28" ry="18" fill="#FFFFFF" stroke="none" />
+          <path d="M 291 287 C 286 272, 274 270, 272 278 C 270 284, 282 287, 290 288" />
+          <path d="M 309 287 C 314 272, 326 270, 328 278 C 330 284, 318 287, 310 288" />
+          <path d="M 275 296 C 250 288, 225 298, 224 316 C 223 328, 236 334, 244 326 C 238 322, 236 314, 242 310 C 248 306, 256 312, 252 322" />
+          <path d="M 325 296 C 350 288, 375 298, 376 316 C 377 328, 364 334, 356 326 C 362 322, 364 314, 358 310 C 352 306, 344 312, 348 322" />
+          <path d="M 275 308 C 254 314, 246 332, 264 344 C 258 334, 264 322, 278 316" />
+          <path d="M 325 308 C 346 314, 354 332, 336 344 C 342 334, 336 322, 322 316" />
+        </g>
+
+        <g id="icono-sup-izq" class="icon-part" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 162 248 L 162 128" />
+          <path d="M 162 206 C 122 206, 102 174, 98 134 C 124 136, 146 154, 162 184" />
+          <path d="M 162 206 C 202 206, 222 174, 226 134 C 200 136, 178 154, 162 184" />
+          <path d="M 162 188 C 134 166, 112 134, 76 124 C 106 118, 138 132, 162 162" />
+          <path d="M 162 188 C 190 166, 212 134, 248 124 C 218 118, 186 132, 162 162" />
+          <polygon points="162,106 174,119 162,132 150,119" />
+        </g>
+
+        <g id="icono-sup-der" class="icon-part" fill="none" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 463 114 L 463 185" />
+          <path d="M 463 156 C 430 156, 418 134, 422 112 C 446 112, 460 128, 463 156 Z" fill="#FFFFFF" />
+          <path d="M 463 156 C 496 156, 508 134, 504 112 C 480 112, 466 128, 463 156 Z" fill="#FFFFFF" />
+          <path d="M 463 185 C 424 185, 408 192, 408 206 C 408 220, 488 214, 488 232 C 488 248, 416 242, 416 258 C 416 272, 465 264, 465 282" />
+        </g>
+
+        <g id="icono-inf-der" class="icon-part" fill="#FFFFFF">
+          <path d="M 382 406 C 415 416, 456 426, 538 402 C 512 432, 476 448, 444 452 L 456 482 L 488 494 L 398 494 L 428 482 L 434 452 C 396 446, 362 426, 352 402 C 344 384, 358 364, 382 364 C 392 364, 398 370, 398 376 C 398 382, 392 385, 388 382 C 388 376, 384 373, 378 373 C 366 373, 360 388, 368 398 C 372 402, 377 404, 382 406 Z" />
+          <path d="M 412 394 C 442 384, 476 386, 504 398 C 474 396, 442 396, 412 394 Z" />
+        </g>
+
+        <g id="icono-inf-izq" class="icon-part" fill="none" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 134 342 L 134 366 C 134 388, 152 402, 166 402 C 180 402, 198 388, 198 366 L 198 342" />
+          <circle cx="134" cy="336" r="4" fill="#FFFFFF" stroke="none" />
+          <circle cx="198" cy="336" r="4" fill="#FFFFFF" stroke="none" />
+          <path d="M 166 402 L 166 490" />
+          <circle cx="166" cy="503" r="14" />
+          <circle cx="166" cy="503" r="5" fill="#FFFFFF" stroke="none" />
+          <path d="M 164 456 C 132 456, 114 438, 114 422 C 138 422, 158 434, 164 456 Z" fill="#FFFFFF" stroke="none" />
+          <path d="M 168 456 C 200 456, 218 438, 218 422 C 194 422, 174 434, 168 456 Z" fill="#FFFFFF" stroke="none" />
+        </g>
+
+        <!-- ================= TEXTOS ================= -->
+        <g id="texto-oncored" class="part">
+          <text x="300" y="668"
+                text-anchor="middle"
+                fill="#0B4D4B"
+                font-size="88"
+                font-weight="600"
+                font-family="Arial, Helvetica, sans-serif"
+                letter-spacing="4">ONCORED</text>
+        </g>
+
+        <g id="texto-subtitulo" class="part">
+          <text x="300" y="715"
+                text-anchor="middle"
+                fill="#6E7373"
+                font-size="31"
+                font-weight="400"
+                font-family="Arial, Helvetica, sans-serif"
+                letter-spacing="1.2">Red de Cuidado Oncológico - COL</text>
+        </g>
+
+      </g>
+    </svg>
+  </div>
+
+  <div class="controls" id="controls">
+    <button class="primary" id="btn-replay" type="button">Repetir</button>
+    <button id="btn-sound" type="button">Sonido: ON</button>
+    <select id="bg-select" aria-label="Color de fondo">
+      <option value="#ffffff">Fondo Blanco</option>
+      <option value="#00ff00">Chroma Verde</option>
+      <option value="#101818">Fondo Oscuro</option>
+    </select>
+    <button id="btn-hide" type="button" title="Ocultar controles">Ocultar</button>
+  </div>
+
+  <script>
+    const scene = document.getElementById("scene");
+    const btnReplay = document.getElementById("btn-replay");
+    const btnSound = document.getElementById("btn-sound");
+    const bgSelect = document.getElementById("bg-select");
+    const btnHide = document.getElementById("btn-hide");
+    const controls = document.getElementById("controls");
+
+    let soundEnabled = true;
+    let audioCtx = null;
+    let soundTimers = [];
+
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Pulso grave y suave al salir una base o texto desde atrás
+    function playWhoosh(freqStart = 120, freqEnd = 220, duration = 0.22, volume = 0.045) {
+      if (!soundEnabled) return;
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freqStart, now);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + duration);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(volume, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    }
+
+    // Toque armónico sutil cuando un ícono grande se adapta y encaja
+    function playIconSettle(noteFreq = 523.25, volume = 0.03) {
+      if (!soundEnabled) return;
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(noteFreq * 0.96, now);
+      osc.frequency.exponentialRampToValueAtTime(noteFreq, now + 0.08);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(volume, now + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.3);
+    }
+
+    function clearSoundSchedule() {
+      soundTimers.forEach((id) => clearTimeout(id));
+      soundTimers = [];
+    }
+
+    function scheduleAnimationSounds() {
+      clearSoundSchedule();
+      if (!soundEnabled) return;
+
+      // Bases (en ms)
+      const baseEvents = [
+        { delay: 120, f1: 110, f2: 210 },
+        { delay: 320, f1: 120, f2: 230 },
+        { delay: 470, f1: 130, f2: 245 },
+        { delay: 620, f1: 140, f2: 260 },
+        { delay: 770, f1: 150, f2: 280 }
+      ];
+      baseEvents.forEach((ev) => {
+        soundTimers.push(setTimeout(() => playWhoosh(ev.f1, ev.f2, 0.2, 0.04), ev.delay));
+      });
+
+      // Asentamiento de los 5 íconos internos (notas suaves ascendentes)
+      const iconSettleEvents = [
+        { delay: 1850, freq: 523.25 }, // Do5
+        { delay: 2100, freq: 587.33 }, // Re5
+        { delay: 2350, freq: 659.25 }, // Mi5
+        { delay: 2600, freq: 783.99 }, // Sol5
+        { delay: 2850, freq: 880.00 }  // La5
+      ];
+      iconSettleEvents.forEach((ev) => {
+        soundTimers.push(setTimeout(() => playIconSettle(ev.freq, 0.03), ev.delay));
+      });
+
+      // Textos
+      soundTimers.push(setTimeout(() => playWhoosh(140, 290, 0.24, 0.04), 2470));
+      soundTimers.push(setTimeout(() => playIconSettle(1046.5, 0.025), 3150));
+    }
+
+    function playAnimation() {
+      scene.classList.remove("animate-in");
+      void scene.offsetWidth;
+      scene.classList.add("animate-in");
+      scheduleAnimationSounds();
+    }
+
+    btnReplay.addEventListener("click", () => {
+      ensureAudioContext();
+      playAnimation();
+    });
+
+    btnSound.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      btnSound.textContent = soundEnabled ? "Sonido: ON" : "Sonido: OFF";
+      if (soundEnabled) {
+        ensureAudioContext();
+        playIconSettle(659.25, 0.03);
+      } else {
+        clearSoundSchedule();
+      }
+    });
+
+    bgSelect.addEventListener("change", (e) => {
+      document.documentElement.style.setProperty("--bg-stage", e.target.value);
+    });
+
+    btnHide.addEventListener("click", () => {
+      controls.style.display = "none";
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      playAnimation();
+    });
+
+    // Desbloquea el audio en el primer clic sobre la escena si el navegador lo pausó al cargar
+    document.addEventListener("pointerdown", () => {
+      if (soundEnabled) ensureAudioContext();
+    }, { once: true });
+  </script>
+</body>
+</html>
